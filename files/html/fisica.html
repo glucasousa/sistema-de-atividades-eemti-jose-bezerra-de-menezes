@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Física — Caderno Digital 1A</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <style>
+        /* =============================================
+           ✏️ CONFIGURE AQUI — só mexa nesta seção
+           ============================================= */
+
+        /* PASSO 1 — adicione seus arquivos .docx aqui */
+        /* Edite o array lá embaixo no <script>        */
+
+        /* PASSO 2 — se quiser trocar a cor da matéria */
+        :root { --cor: #0277bd; --cor-dim: #0277bd22; }
+
+        /* =============================================
+           DARK / LIGHT
+           ============================================= */
+        [data-theme="dark"] {
+            --bg: #2b3a2e; --bg-surface: #1e2e21; --card-bg: #243028;
+            --text: #f0ede0; --text-muted: #a8c4a2; --border: #4a7a5a;
+            --chalk: rgba(240,237,224,0.12); --chalk-strong: rgba(240,237,224,0.45);
+            --toggle-bg: #1e4d3a; --shadow: 0 4px 20px rgba(0,0,0,0.45);
+            --doc-bg: #1a2a1d; --doc-text: #edecea; --doc-border: #3a5a3a;
+        }
+        [data-theme="light"] {
+            --bg: #f5f0e8; --bg-surface: #fffdf7; --card-bg: #fffdf7;
+            --text: #2c3e2d; --text-muted: #6b8c6e; --border: #b5d4b8;
+            --chalk: rgba(44,62,45,0.07); --chalk-strong: rgba(44,62,45,0.18);
+            --toggle-bg: #d5e8d6; --shadow: 0 4px 20px rgba(0,0,0,0.09);
+            --doc-bg: #fffdf7; --doc-text: #1a1a18; --doc-border: #b5d4b8;
+        }
+
+        /* =============================================
+           RESET + BASE
+           ============================================= */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color .4s, color .4s;
+            background-image: repeating-linear-gradient(
+                0deg, transparent, transparent 39px,
+                var(--chalk) 39px, var(--chalk) 40px
+            );
+        }
+
+        /* =============================================
+           TOGGLE
+           ============================================= */
+        .theme-toggle {
+            position: fixed; top: 1.25rem; right: 1.25rem;
+            background: var(--toggle-bg); border: 2px solid var(--border);
+            border-radius: 50%; width: 2.75rem; height: 2.75rem;
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; z-index: 100; font-size: 1.2rem;
+            transition: transform .2s;
+        }
+        .theme-toggle:hover { transform: scale(1.15) rotate(15deg); }
+
+        /* =============================================
+           VOLTAR
+           ============================================= */
+        .btn-voltar {
+            display: inline-flex; align-items: center; gap: .4rem;
+            margin: 2rem 2rem 0; color: var(--text-muted);
+            text-decoration: none; font-family: 'Patrick Hand', cursive;
+            font-size: .95rem; transition: color .2s;
+        }
+        .btn-voltar:hover { color: var(--text); }
+
+        /* =============================================
+           HEADER
+           ============================================= */
+        header {
+            max-width: 760px; margin: 0 auto;
+            padding: 1.5rem 2rem 1rem; text-align: center;
+        }
+        .chalk-line {
+            height: 2px; background: var(--chalk-strong);
+            border-radius: 2px; margin: .75rem 0;
+        }
+        .nome-materia {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 700; color: var(--cor);
+            text-shadow: 1px 1px 0 var(--chalk-strong), -1px -1px 0 var(--chalk);
+            letter-spacing: .02em;
+        }
+        .desc-materia {
+            font-size: .9rem; color: var(--text-muted); margin-top: .2rem;
+        }
+        .deco {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: .4rem .9rem; margin: .75rem 0;
+            font-family: 'Caveat', cursive; font-size: 1.05rem;
+            color: var(--cor); opacity: .4; user-select: none;
+        }
+
+        /* =============================================
+           MAIN
+           ============================================= */
+        main {
+            max-width: 760px; margin: 0 auto;
+            padding: 0 2rem 4rem; width: 100%;
+        }
+        .secao-titulo {
+            font-family: 'Caveat', cursive; font-size: 1.5rem;
+            font-weight: 600; color: var(--text-muted);
+            margin: 1.5rem 0 .75rem; display: flex;
+            align-items: center; gap: .5rem;
+        }
+        .secao-titulo::after {
+            content: ''; flex: 1; height: 1px;
+            background: var(--chalk-strong);
+        }
+
+        /* =============================================
+           LISTA DE ATIVIDADES
+           ============================================= */
+        #lista-atividades {
+            list-style: none; display: flex; flex-direction: column; gap: .75rem;
+        }
+        #lista-atividades li {
+            background: var(--card-bg);
+            border: 2px solid var(--cor);
+            border-left: 6px solid var(--cor);
+            border-radius: 4px 10px 10px 4px;
+            padding: .9rem 1rem;
+            display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+            box-shadow: var(--shadow);
+            transition: transform .15s;
+        }
+        #lista-atividades li:hover { transform: translateX(4px); }
+        .atv-nome {
+            font-family: 'Caveat', cursive; font-size: 1.2rem;
+            font-weight: 600; color: var(--text); flex: 1;
+        }
+        .atv-acoes { display: flex; gap: .5rem; flex-wrap: wrap; }
+        .btn-ver, .btn-dl {
+            font-family: 'Patrick Hand', cursive; font-size: .9rem;
+            padding: .35rem .85rem; border-radius: 6px;
+            cursor: pointer; text-decoration: none;
+            transition: opacity .2s, transform .15s;
+            border: 1.5px solid var(--cor);
+        }
+        .btn-ver {
+            background: var(--cor-dim); color: var(--cor);
+        }
+        .btn-dl {
+            background: var(--cor); color: #fff;
+        }
+        .btn-ver:hover, .btn-dl:hover { opacity: .85; transform: scale(1.04); }
+
+        /* =============================================
+           VISUALIZADOR DO DOCX
+           ============================================= */
+        #visualizador {
+            margin-top: 1.5rem;
+            border: 2px solid var(--doc-border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--doc-bg);
+        }
+        .doc-header {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            padding: .75rem 1rem;
+            background: var(--cor); color: #fff;
+            font-family: 'Caveat', cursive; font-size: 1.2rem;
+        }
+        .btn-fechar {
+            background: none; border: 1.5px solid rgba(255,255,255,.6);
+            color: #fff; border-radius: 6px; padding: .2rem .7rem;
+            cursor: pointer; font-family: 'Patrick Hand', cursive;
+            font-size: .85rem; transition: background .2s;
+        }
+        .btn-fechar:hover { background: rgba(255,255,255,.2); }
+        .doc-conteudo {
+            padding: 1.5rem 2rem;
+            color: var(--doc-text);
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1rem; line-height: 1.8;
+            max-height: 60vh; overflow-y: auto;
+        }
+        .doc-conteudo h1, .doc-conteudo h2, .doc-conteudo h3 {
+            font-family: 'Caveat', cursive;
+            color: var(--cor); margin: 1rem 0 .5rem;
+        }
+        .doc-conteudo p { margin-bottom: .75rem; }
+        .doc-conteudo table {
+            width: 100%; border-collapse: collapse; margin: 1rem 0;
+        }
+        .doc-conteudo td, .doc-conteudo th {
+            border: 1px solid var(--doc-border);
+            padding: .5rem .75rem; font-size: .95rem;
+        }
+        .carregando, .erro {
+            padding: 2rem; text-align: center;
+            font-family: 'Caveat', cursive; font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        /* =============================================
+           FOOTER
+           ============================================= */
+        footer {
+            max-width: 760px; margin: 0 auto;
+            padding: .5rem 2rem 2.5rem; width: 100%;
+            text-align: center;
+        }
+        footer p { font-size: .85rem; color: var(--text-muted); margin-top: .75rem; }
+        footer strong { color: var(--text); }
+
+        /* =============================================
+           RESPONSIVO
+           ============================================= */
+        @media (max-width: 480px) {
+            header, main, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .doc-conteudo { padding: 1rem; }
+            .atv-acoes { width: 100%; }
+            .btn-ver, .btn-dl { flex: 1; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span id="themeIcon">☀️</span>
+    </button>
+
+    <a href="../../index.html" class="btn-voltar">← Voltar</a>
+
+    <header>
+        <div class="chalk-line"></div>
+        <p class="nome-materia">🔬 Física</p>
+        <p class="desc-materia">Leis, forças e fenômenos naturais</p>
+        <div class="deco"><span>F=ma</span> <span>E=mc²</span> <span>v=d/t</span> <span>λ</span> <span>Ω</span> <span>Hz</span> <span>m/s</span> <span>N</span> <span>J</span> <span>W</span></div>
+        <div class="chalk-line"></div>
+    </header>
+
+    <main>
+        <h2 class="secao-titulo">📂 Atividades</h2>
+        <ul id="lista-atividades"></ul>
+
+        <div id="visualizador"></div>
+    </main>
+
+    <footer>
+        <div class="chalk-line"></div>
+        <p>🖊️ Desenvolvido por <strong>Gianluca</strong> e <strong>Arthur S.</strong></p>
+    </footer>
+
+    <script src="../../js/script01.js"></script>
+    <script>
+        // =============================================
+        // ✏️ ADICIONE SUAS ATIVIDADES AQUI
+        // Copie e cole mais objetos para mais atividades
+        // =============================================
+        iniciarLeitor({
+            listaId:     'lista-atividades',
+            containerId: 'visualizador',
+            arquivos: [
+                {
+                    nome:    'Atividade 1 — Física',
+                    caminho: '../../files/atividades-docx/fisica/atividade1.docx'
+                },
+                // {
+                //     nome:    'Atividade 2 — Física',
+                //     caminho: '../../files/atividades-docx/fisica/atividade2.docx'
+                // },
+            ]
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+/* =========================================
+   VARIÁVEIS — DARK (quadro negro, padrão)
+   ========================================= */
+:root,
+[data-theme="dark"] {
+    --bg:           #2b3a2e;
+    --bg-surface:   #243028;
+    --bg-pasta:     #1e4d3a;
+    --text:         #f0ede0;
+    --text-muted:   #a8c4a2;
+    --border:       #4a7a5a;
+    --chalk:        rgba(240, 237, 224, 0.15);
+    --chalk-strong: rgba(240, 237, 224, 0.5);
+    --link:         #f0ede0;
+    --link-hover:   #ffffff;
+    --pasta-cores:  #c0392b, #2980b9, #8e44ad, #d35400, #27ae60, #16a085;
+    --toggle-bg:    #1e4d3a;
+    --shadow:       0 4px 20px rgba(0,0,0,0.4);
+}
+
+/* =========================================
+   VARIÁVEIS — LIGHT (sala iluminada)
+   ========================================= */
+[data-theme="light"] {
+    --bg:           #f5f0e8;
+    --bg-surface:   #fffdf7;
+    --bg-pasta:     #e8f5e9;
+    --text:         #2c3e2d;
+    --text-muted:   #6b8c6e;
+    --border:       #b5d4b8;
+    --chalk:        rgba(44, 62, 45, 0.08);
+    --chalk-strong: rgba(44, 62, 45, 0.2);
+    --link:         #2c3e2d;
+    --link-hover:   #000;
+    --toggle-bg:    #d5e8d6;
+    --shadow:       0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* =========================================
+   RESET
+   ========================================= */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* =========================================
+   BASE
+   ========================================= */
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    transition: background-color 0.4s ease, color 0.4s ease;
+
+    /* textura sutil de quadro */
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 39px,
+            var(--chalk) 39px,
+            var(--chalk) 40px
+        );
+}
+
+/* =========================================
+   TOGGLE DE TEMA
+   ========================================= */
+.theme-toggle {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: var(--toggle-bg);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: transform 0.2s ease, background-color 0.4s ease;
+    font-size: 1.2rem;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.15) rotate(15deg);
+}
+
+/* =========================================
+   HEADER — quadro com título giz
+   ========================================= */
+header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 2rem;
+    text-align: center;
+}
+
+.chalk-line {
+    height: 2px;
+    background: var(--chalk-strong);
+    border-radius: 2px;
+    margin: 1rem 0;
+    /* traço irregular estilo giz */
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='4'%3E%3Cpath d='M0 2 Q10 0 20 2 Q30 4 40 2 Q50 0 60 2 Q70 4 80 2 Q90 0 100 2 Q110 4 120 2 Q130 0 140 2 Q150 4 160 2 Q170 0 180 2 Q190 4 200 2' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    mask-size: 200px 4px;
+    mask-repeat: repeat-x;
+}
+
+.escola {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+}
+
+header h1 {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+    /* efeito giz levemente impreciso */
+    text-shadow: 1px 1px 0 var(--chalk-strong), -1px -1px 0 var(--chalk);
+}
+
+.turma {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   MAIN
+   ========================================= */
+main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem 2rem 4rem;
+    width: 100%;
+}
+
+/* =========================================
+   NAV — lista de pastas
+   ========================================= */
+nav[aria-label="Disciplinas"] h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.lista-materias {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.9rem;
+}
+
+/* cada item = uma "pasta" */
+.lista-materias li {
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-radius: 4px 12px 12px 4px;
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--shadow);
+
+    /* lingueta da pasta no topo */
+}
+
+.lista-materias li::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    width: 48px;
+    height: 10px;
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+}
+
+/* cores diferentes para cada pasta */
+.lista-materias li:nth-child(6n+1) { border-color: #c0392b; }
+.lista-materias li:nth-child(6n+1)::before { background: #c0392b22; border-color: #c0392b; }
+
+.lista-materias li:nth-child(6n+2) { border-color: #2980b9; }
+.lista-materias li:nth-child(6n+2)::before { background: #2980b922; border-color: #2980b9; }
+
+.lista-materias li:nth-child(6n+3) { border-color: #8e44ad; }
+.lista-materias li:nth-child(6n+3)::before { background: #8e44ad22; border-color: #8e44ad; }
+
+.lista-materias li:nth-child(6n+4) { border-color: #d35400; }
+.lista-materias li:nth-child(6n+4)::before { background: #d3540022; border-color: #d35400; }
+
+.lista-materias li:nth-child(6n+5) { border-color: #27ae60; }
+.lista-materias li:nth-child(6n+5)::before { background: #27ae6022; border-color: #27ae60; }
+
+.lista-materias li:nth-child(6n+6) { border-color: #16a085; }
+.lista-materias li:nth-child(6n+6)::before { background: #16a08522; border-color: #16a085; }
+
+.lista-materias li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.lista-materias a {
+    display: block;
+    padding: 1.1rem 1rem 0.9rem;
+    color: var(--link);
+    text-decoration: none;
+    font-family: 'Caveat', cursive;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    transition: color 0.2s ease;
+}
+
+.lista-materias a:hover {
+    color: var(--link-hover);
+}
+
+/* matérias sem link ainda */
+.lista-materias a[href=""] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+footer {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem 2.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+}
+
+footer strong {
+    color: var(--text);
+}
+
+/* =========================================
+   RESPONSIVO
+   ========================================= */
+@media (max-width: 480px) {
+    header {
+        padding: 3rem 1.25rem 1.5rem;
+    }
+
+    main {
+        padding: 1rem 1.25rem 3rem;
+    }
+
+    .lista-materias {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* =========================================
+   ARTHUR ME DA O LG K10 PFVR
+   ;-;
+   ========================================= */

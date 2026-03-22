@@ -8,6 +8,7 @@
 <p>
 Este projeto é um sistema web simples que funciona como um <b>caderno digital interativo</b>,
 permitindo organizar e acessar atividades por disciplina de forma prática. :)
+(tive que refazer)
 </p>
 
 <h2> Funcionalidades</h2>
@@ -30,13 +31,15 @@ HTML5 • CSS3 • JavaScript(Creditos para Arthur.S(ele fez 80% do html, css, j
 /sistema-de-atividades-eemti-jose-bezerra-de-menezes
 
 │── index.html
-│── pag02.html
 /- styles
-│── style00.css
 │── style01.css
 /- js
 │── script00.js
 │── script01.js
+
+/- files
+/- atividades
+/- etc
 </pre>
 
 <h2>⚙️ Como Usar</h2>
