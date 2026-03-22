@@ -49,9 +49,6 @@ HTML5 • CSS3 • JavaScript(Creditos para Arthur.S(ele fez 80% do html, css, j
   <li>Use o menu para navegar entre as matérias</li>
 </ol>
 
-<h2>📸 Interface</h2>
-<p>(adicione prints aqui depois)</p>
-
 <h2>💡 Melhorias Futuras</h2>
 <ul>
   <li>Sistema de login</li>
